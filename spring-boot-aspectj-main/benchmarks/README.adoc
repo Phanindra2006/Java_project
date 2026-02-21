@@ -1,0 +1,143 @@
+= Benchmarks
+
+== How to run
+
+The Surefire Maven Plugin will run the benchmarking process:
+
+```
+$ cd benchmarks
+$ mvn test -Dtest=StartupBenchmark
+```
+
+Outside Maven after building the benchmarks.jar you can just run the `StartupBenchmark` in your IDE.
+
+= Results
+
+=== JDK 11
+
+```
+class                       method   scale    median  mean   range
+com.bench.StartupBenchmark  ltw               2.398   2.473  0.113
+com.bench.StartupBenchmark  ltw_100           2.404   2.431  0.037
+com.bench.StartupBenchmark  spring   v0_10    1.604   1.648  0.039
+com.bench.StartupBenchmark  spring   v1_10    1.714   1.748  0.030
+com.bench.StartupBenchmark  spring   v1_100   1.767   1.792  0.019
+com.bench.StartupBenchmark  spring   v10_50   2.204   2.284  0.062
+com.bench.StartupBenchmark  spring   v20_50   2.801   2.828  0.033
+com.bench.StartupBenchmark  spring   a0_10    1.621   1.659  0.042
+com.bench.StartupBenchmark  spring   a1_10    1.704   1.772  0.139
+com.bench.StartupBenchmark  spring   a1_100   1.700   1.774  0.157
+com.bench.StartupBenchmark  spring   a10_50   2.004   2.104  0.146
+com.bench.StartupBenchmark  spring   a10_100  1.943   1.988  0.084
+com.bench.StartupBenchmark  spring   a20_50   2.216   2.268  0.056
+```
+
+=== JDK 8
+
+```
+class                       method   scale    median  mean   range
+com.bench.StartupBenchmark  ltw               2.020    2.044   0.063
+com.bench.StartupBenchmark  ltw_100           2.050    2.078   0.042
+com.bench.StartupBenchmark  spring   v0_10    1.532   1.550  0.018
+com.bench.StartupBenchmark  spring   v1_10    1.621   1.662  0.051
+com.bench.StartupBenchmark  spring   v1_100   1.653   1.669  0.026
+com.bench.StartupBenchmark  spring   v10_50   2.120   2.148  0.036
+com.bench.StartupBenchmark  spring   v20_50   2.657   2.692  0.034
+com.bench.StartupBenchmark  spring   a0_10    1.517   1.537  0.025
+com.bench.StartupBenchmark  spring   a1_10    1.624   1.638  0.019
+com.bench.StartupBenchmark  spring   a1_100   1.651   1.670  0.015
+com.bench.StartupBenchmark  spring   a10_50   1.905   1.927  0.020
+com.bench.StartupBenchmark  spring   a10_100  1.900   1.931  0.035
+com.bench.StartupBenchmark  spring   a20_50   2.124   2.162  0.052
+```
+
+== Older Results
+
+=== AspectJ 1.8.11 Snapshots
+
+(Seems to fix the problem with Spring AOP.)
+
+```
+Benchmark                 (scale)  Mode  Cnt  Score   Error  Units
+StartupBenchmark.ltw          N/A  avgt   10  1.878 ± 0.039   s/op
+StartupBenchmark.ltw_100      N/A  avgt   10  1.930 ± 0.083   s/op
+StartupBenchmark.spring     v0_10  avgt   10  1.485 ± 0.033   s/op
+StartupBenchmark.spring     v1_10  avgt   10  1.605 ± 0.069   s/op
+StartupBenchmark.spring    v1_100  avgt   10  1.629 ± 0.022   s/op
+StartupBenchmark.spring    v10_50  avgt   10  2.176 ± 0.091   s/op
+StartupBenchmark.spring    v20_50  avgt   10  2.771 ± 0.080   s/op
+StartupBenchmark.spring     a0_10  avgt   10  1.485 ± 0.049   s/op
+StartupBenchmark.spring     a1_10  avgt   10  1.564 ± 0.032   s/op
+StartupBenchmark.spring    a1_100  avgt   10  1.603 ± 0.047   s/op
+StartupBenchmark.spring    a10_50  avgt   10  1.831 ± 0.013   s/op
+StartupBenchmark.spring   a10_100  avgt   10  1.890 ± 0.060   s/op
+StartupBenchmark.spring    a20_50  avgt   10  2.121 ± 0.083   s/op
+```
+
+=== AspectJ 1.8.10
+
+```
+Benchmark                        Mode  Cnt   Score   Error  Units
+StartupBenchmark.null            avgt   10   2.114 ± 0.134   s/op
+StartupBenchmark.ltw             avgt   10   2.749 ± 0.067   s/op
+StartupBenchmark.ltw_10          avgt   10   2.914 ± 0.110   s/op
+StartupBenchmark.ltw_10_100      avgt   10   2.873 ± 0.114   s/op
+StartupBenchmark.ltw_20          avgt   10   2.900 ± 0.110   s/op
+StartupBenchmark.ltw_20_100      avgt   10   2.965 ± 0.114   s/op
+StartupBenchmark.annotation         avgt   10   2.113 ± 0.095   s/op
+StartupBenchmark.annotation_10_100  avgt   10   7.204 ± 0.062   s/op
+StartupBenchmark.annotation_10_50   avgt   10   7.199 ± 0.092   s/op
+StartupBenchmark.annotation_1_100   avgt   10   2.838 ± 0.115   s/op
+StartupBenchmark.annotation_1_50    avgt   10   2.814 ± 0.070   s/op
+StartupBenchmark.annotation_20_100  avgt   10  11.512 ± 0.106   s/op
+StartupBenchmark.annotation_20_50   avgt   10  11.476 ± 0.132   s/op
+```
+
+.Number of @Aspects vs. Startup Time
+image::https://docs.google.com/spreadsheets/d/e/2PACX-1vR8B4l5WkWf-9gZWmIYTkmBWM7YWf5bRg852OakrV0G2-vtfM_UkVNRC3cTVk1079HagnMVHYZnvbib/pubchart?oid=756916910&amp;format=image[]
+
+Legend:
+
+* null:           No aspect weaving at all.
+* annotation:        Spring AOP. No aspects with method annotation pointcuts.
+* annotation_1_50:   Spring AOP with extra aspects(1) and beans(50).
+* annotation_1_100:  Spring AOP with extra aspects(1) and beans(100).
+* annotation_10_50:  Spring AOP with extra aspects(10) and beans(50).
+* annotation_10_50:  Spring AOP with extra aspects(10) and beans(100).
+* annotation_20_50:  Spring AOP with extra aspects(20) and beans(50).
+* annotation_20_50:  Spring AOP with extra aspects(20) and beans(100).
+* ltw:            Load Time Weaving. Aspects woven by AspectJ agent, not Spring.
+* ltw_10:         Load Time Weaving with extra aspects (10).
+* ltw_10_100:     Load Time Weaving with extra aspects(10) and beans(100).
+* ltw_20:         Load Time Weaving with extra aspects (20).
+* ltw_20_100:     Load Time Weaving with extra aspects(20) and beans(100).
+
+|===
+| sample | @aspects | beans | startup(millis)
+
+| null           | 0 | 188 | 2117
+| ltw            | 0 | 188 | 2749
+| ltw_10         | 10| 188 | 2914
+| ltw_10_100     | 10| 288 | 2873
+| ltw_20         | 20| 188 | 2900
+| ltw_20_100     | 20| 288 | 2965
+| annotation        | 0 | 191 | 2113
+| annotation_1_50   | 1 | 242 | 2814
+| annotation_1_100  | 1 | 292 | 2838
+| annotation_10_50  | 10| 251 | 7119
+| annotation_10_100 | 10| 301 | 7204
+| annotation_20_50  | 20| 261 | 11476
+| annotation_20_100 | 20| 311 | 11512
+
+
+|===
+
+The annotation (Spring AOP) samples are much slower with @aspects than
+without and the slow down is proportional to the number of pointcuts
+(not so much with the number of beans). It's pretty awful: 400ms per
+pointcut.
+
+The "ltw" samples are a bit slower with @aspects than without, but the
+slow down is not proportional to the number of pointcuts. Note,
+however, that all the pointcuts were the same, so maybe there is some
+optimization in AspectJ that doesn't help for a realistic system.
